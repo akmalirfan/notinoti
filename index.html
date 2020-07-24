@@ -19,6 +19,10 @@
         <input type="button" onclick="triggerNotification();" value="Show notification" />
 
         <script>
+            document.body.onload = () => {
+                Notification.requestPermission()
+            }
+
             getDataURL = (input) => {
                 if (input.files && input.files[0]) {
                     let reader = new FileReader()
