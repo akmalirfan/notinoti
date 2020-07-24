@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+    <body>
+        <img id="img" />
+
+        <input type="text" id="noti_title" placeholder="Notification title" />
+        <input type="text" id="noti_body" placeholder="Notification body" />
+        <input type="file" onchange="getDataURL(this);" />
+        <input type="button" onclick="triggerNotification();" value="Show notification" />
+
+        <script>
+            getDataURL = (input) => {
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader()
+
+                    reader.onload = (e) =>
+                        (document.querySelector("#img").src = e.target.result)
+
+                    reader.readAsDataURL(input.files[0])
+                }
+            }
+
+            triggerNotification = () => {
+                new Notification(document.querySelector("#noti_title").value, {
+                    body: document.querySelector("#noti_body").value,
+                    image: document.querySelector("#img").src,
+                })
+            }
+        </script>
+    </body>
+</html>
