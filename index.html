@@ -16,9 +16,15 @@
         <input type="text" id="noti_title" placeholder="Notification title" />
         <input type="text" id="noti_body" placeholder="Notification body" />
         <input type="file" onchange="getDataURL(this);" />
-        <input type="button" onclick="triggerNotification();" value="Show notification" />
+        <input
+            type="button"
+            onclick="triggerNotification();"
+            value="Show notification"
+        />
 
         <script>
+            navigator.serviceWorker.register("sw.js")
+
             document.body.onload = () => {
                 Notification.requestPermission()
             }
@@ -35,9 +41,14 @@
             }
 
             triggerNotification = () => {
-                new Notification(document.querySelector("#noti_title").value, {
-                    body: document.querySelector("#noti_body").value,
-                    image: document.querySelector("#img").src,
+                navigator.serviceWorker.ready.then((registration) => {
+                    registration.showNotification(
+                        document.querySelector("#noti_title").value,
+                        {
+                            body: document.querySelector("#noti_body").value,
+                            image: document.querySelector("#img").src,
+                        }
+                    )
                 })
             }
         </script>
