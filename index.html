@@ -3,18 +3,26 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>notinoti</title>
+
+        <style>
+            input {
+                display: block;
+            }
+        </style>
     </head>
-    <style>
-        input {
-            display: block;
-        }
-    </style>
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/barcodes/JsBarcode.code128.min.js"></script>
         <img id="img" />
 
         <input type="text" id="noti_title" placeholder="Notification title" />
         <input type="text" id="noti_body" placeholder="Notification body" />
+        <input
+            type="text"
+            id="noti_barcode"
+            placeholder="CODE128 barcode"
+            onchange="generateBarcode(this);"
+        />
         <input type="file" onchange="getDataURL(this);" />
         <input
             type="button"
@@ -28,6 +36,8 @@
             document.body.onload = () => {
                 Notification.requestPermission()
             }
+
+            generateBarcode = (input) => JsBarcode("#img", input.value)
 
             getDataURL = (input) => {
                 if (input.files && input.files[0]) {
